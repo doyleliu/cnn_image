@@ -5,9 +5,9 @@ import argparse
 
 from numpy import linalg as LA
 
-from keras.applications.vgg16 import VGG16
+from keras.applications.vgg19 import VGG19
 from keras.preprocessing import image
-from keras.applications.vgg16 import preprocess_input
+from keras.applications.vgg19 import preprocess_input
 
 ap = argparse.ArgumentParser()
 ap.add_argument("-database", required = True,
@@ -22,7 +22,7 @@ def extract_feat(img_path):
     # input_shape: (width, height, 3), width and height should >= 48
 
     input_shape = (224, 224, 3)
-    model = VGG16(weights='imagenet', input_shape=(input_shape[0], input_shape[1], input_shape[2]), pooling='max',include_top=False)
+    model = VGG19(weights='imagenet', input_shape=(input_shape[0], input_shape[1], input_shape[2]), pooling='max',include_top=False)
 
     img = image.load_img(img_path, target_size=(input_shape[0], input_shape[1]))
     img = image.img_to_array(img)
