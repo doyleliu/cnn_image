@@ -8,7 +8,15 @@ ap.add_argument("-database", required = True,
 args = vars(ap.parse_args())
 
 def get_imlist(path):
-    return [os.path.join(path,f) for f in os.listdir(path) if f.endswith('.jpg')]
+    site = []
+    for tmp_path in os.listdir(path):
+        final_path = os.path.join(path,tmp_path)
+        print(final_path)
+        if(os.path.isdir(final_path)):
+            for f in os.listdir(final_path):
+                if f.endswith('.jpg'):
+                    site.append(os.path.join(final_path,f))
+    return site
 
 if __name__ == "__main__":
     db = args["database"]
