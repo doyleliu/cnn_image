@@ -53,7 +53,7 @@ if __name__ == "__main__":
 
     feats = np.array(feats)
     # directory for storing extracted features
-    output = args["index"]r
+    output = args["index"]
 
     h5f = h5py.File(output, 'w')
     h5f.create_dataset('dataset_1', data=feats)
