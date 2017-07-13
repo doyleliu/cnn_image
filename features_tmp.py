@@ -12,8 +12,6 @@ from keras.applications.vgg16 import preprocess_input
 ap = argparse.ArgumentParser()
 ap.add_argument("-database", required = True,
 	help = "Path to database which contains images to be indexed")
-ap.add_argument("-index", required = True,
-	help = "Name of index file")
 args = vars(ap.parse_args())
 
 def extract_feat(img_path):
@@ -56,7 +54,7 @@ if __name__ == "__main__":
     for i, img_path in enumerate(img_list):
         if(i%150 == 0):
             feats = np.array(feats)
-            output = args["index"] + tmp_num
+            output = "%dfeatures.h5"(tmp_num)
             h5f = h5py.File(output, 'w')
             h5f.create_dataset('dataset_1', data=feats)
             h5f.create_dataset('dataset_2', data=names)
