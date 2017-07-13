@@ -54,7 +54,7 @@ if __name__ == "__main__":
 
     tmp_num = 0
     for i, img_path in enumerate(img_list):
-        if(i%150 == 0){
+        if(i%150 == 0):
             feats = np.array(feats)
             output = args["index"] + tmp_num
             h5f = h5py.File(output, 'w')
@@ -65,7 +65,7 @@ if __name__ == "__main__":
             names = []
             tmp_num = tmp_num + 1
             print "No. %dfile" % (tmp_num)
-        }
+        
         norm_feat = extract_feat(img_path)
         img_name = os.path.split(img_path)[1]
         feats.append(norm_feat)
