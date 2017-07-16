@@ -58,7 +58,7 @@ if __name__ == "__main__":
 
     for i, img_path in enumerate(img_list):
         if(i <= nums*150 or i > (nums+1)*150):
-            contine
+            continue
         norm_feat = extract_feat(img_path)
         img_name = os.path.split(img_path)[1]
         feats.append(norm_feat)
@@ -76,6 +76,8 @@ if __name__ == "__main__":
         h5f.close()
     else:
         h5f = h5py.File(output, 'a')
+	dataset_1 = h5f['dataset_1']
+	dataset_2 = h5f['dataset_2']
         dataset_1[nums*150] = feats
         dataset_2[nums*150] = names
         h5f.close()
