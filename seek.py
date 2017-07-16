@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# Author: yongyuan.name
-from features import extract_feat
+
+from gain_features import extract_feat
 
 import numpy as np
 import h5py

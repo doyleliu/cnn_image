@@ -54,10 +54,10 @@ if __name__ == "__main__":
     feats = []
     names = []
 
-    nums = args["number"]
+    nums = int(args["number"])
 
     for i, img_path in enumerate(img_list):
-        if(i <= nums*150 or i > (nums+1)*150):
+        if(i < nums*150 or i >= (nums+1)*150):
             contine
         norm_feat = extract_feat(img_path)
         img_name = os.path.split(img_path)[1]
