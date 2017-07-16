@@ -12,6 +12,10 @@ from keras.applications.vgg16 import preprocess_input
 ap = argparse.ArgumentParser()
 ap.add_argument("-database", required = True,
 	help = "Path to database which contains images to be indexed")
+ap.add_argument("-index", required = True,
+	help = "Name of index file")
+ap.add_argument("-number", required = True,
+	help = "the number of picture(150/9999)")
 args = vars(ap.parse_args())
 
 def extract_feat(img_path):
@@ -50,33 +54,28 @@ if __name__ == "__main__":
     feats = []
     names = []
 
-    tmp_num = 0
+    nums = args["number"]
+
     for i, img_path in enumerate(img_list):
-        if(i%150 == 0):
-            feats = np.array(feats)
-            output = "%dfeatures.h5"(tmp_num)
-            h5f = h5py.File(output, 'w')
-            h5f.create_dataset('dataset_1', data=feats)
-            h5f.create_dataset('dataset_2', data=names)
-            h5f.close()
-            feats = []
-            names = []
-            tmp_num = tmp_num + 1
-            print "No. %dfile" % (tmp_num)
-        
+        if(i <= nums*150 or i > (nums+1)*150):
+            contine
         norm_feat = extract_feat(img_path)
         img_name = os.path.split(img_path)[1]
         feats.append(norm_feat)
         names.append(img_name)
         print "extracting feature from image No. %d , %d images in total" % ((i + 1), len(img_list))
 
-    
+    feats = np.array(feats)
     # directory for storing extracted features
-    output = args["index"] + tmp_num
-    h5f = h5py.File(output, 'w')
-    h5f.create_dataset('dataset_1', data=feats)
-    h5f.create_dataset('dataset_2', data=names)
-    h5f.close()
-  
+    output = args["index"]
 
-    
+    if(nums == 0):
+        h5f = h5py.File(output, 'w')
+        dataset_1 = h5f.create_dataset('dataset_1', data=feats)
+        dataset_2 = h5f.create_dataset('dataset_2', data=names)
+        h5f.close()
+    else:
+        h5f = h5py.File(output, 'a')
+        dataset_1[nums*150] = feats
+        dataset_2[nums*150] = names
+        h5f.close()

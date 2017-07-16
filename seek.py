@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Author: yongyuan.name
-from extract_cnn_vgg16_keras import extract_feat
+from features import extract_feat
 
 import numpy as np
 import h5py
@@ -33,9 +33,9 @@ print "--------------------------------------------------"
 # read and show query image
 queryDir = args["query"]
 queryImg = mpimg.imread(queryDir)
-plt.title("Query Image")
-plt.imshow(queryImg)
-plt.show()
+# plt.title("Query Image")
+# plt.imshow(queryImg)
+# plt.show()
 
 
 # extract query image's feature, compute simlarity score and sort
@@ -54,8 +54,8 @@ print "top %d images in order are: " %maxres, imlist
  
 
 # show top #maxres retrieved result one by one
-for i,im in enumerate(imlist):
-    image = mpimg.imread(args["result"]+"/"+im)
-    plt.title("search output %d" %(i+1))
-    plt.imshow(image)
-    plt.show()
+# for i,im in enumerate(imlist):
+#     image = mpimg.imread(args["result"]+"/"+im)
+#     plt.title("search output %d" %(i+1))
+#     plt.imshow(image)
+#     plt.show()
