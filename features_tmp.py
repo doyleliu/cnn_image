@@ -2,7 +2,7 @@ import numpy as np
 import os
 import h5py
 import argparse
-
+import csv
 from numpy import linalg as LA
 
 from keras.applications.vgg16 import VGG16
@@ -35,15 +35,7 @@ def extract_feat(img_path):
     return norm_feat
 
 def get_imlist(path):
-    site = []
-    for tmp_path in os.listdir(path):
-        final_path = os.path.join(path,tmp_path)
-        print(final_path)
-        if(os.path.isdir(final_path)):
-            for f in os.listdir(final_path):
-                if f.endswith('.jpg'):
-                    site.append(os.path.join(final_path,f))
-    return site
+    return [os.path.join(path,f) for f in os.listdir(path) if f.endswith('.jpg')]
 
 
 if __name__ == "__main__":
@@ -57,7 +49,7 @@ if __name__ == "__main__":
     nums = int(args["number"])
 
     for i, img_path in enumerate(img_list):
-        if(i <= nums*150 or i > (nums+1)*150):
+        if(i < nums*50 or i >= (nums+1)*50):
             continue
         norm_feat = extract_feat(img_path)
         img_name = os.path.split(img_path)[1]
@@ -70,14 +62,23 @@ if __name__ == "__main__":
     output = args["index"]
 
     if(nums == 0):
-        h5f = h5py.File(output, 'w')
-        dataset_1 = h5f.create_dataset('dataset_1', data=feats)
-        dataset_2 = h5f.create_dataset('dataset_2', data=names)
-        h5f.close()
+	print(feats.shape)
+	out = open("features.csv", "w")
+	writer = csv.writer(out)
+	
+        dataset_1 = h5f.create_dataset('dataset_1', data=feats, maxshape=(None,512),chunks=True)
+        dataset_2 = h5f.create_dataset('dataset_2', data=names, maxshape=(None,512),chunks=True)
+        print(dataset_1.shape)
+	print(dataset_1.maxshape)
+	h5f.close()
     else:
         h5f = h5py.File(output, 'a')
 	dataset_1 = h5f['dataset_1']
 	dataset_2 = h5f['dataset_2']
-        dataset_1[nums*150] = feats
-        dataset_2[nums*150] = names
+	print(dataset_1.shape)
+	print(dataset_1.maxshape)
+	dataset_1.resize([nums*50+50,512])
+	dataset_2.resize([nums*50+50,512])
+        dataset_1[nums*50] = feats
+        dataset_2[nums*50] = names
         h5f.close()
