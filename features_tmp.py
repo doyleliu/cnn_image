@@ -54,7 +54,7 @@ if __name__ == "__main__":
     feats = []
     names = []
 
-    nums = args["number"]
+    nums = int(args["number"])
 
     for i, img_path in enumerate(img_list):
         if(i <= nums*150 or i > (nums+1)*150):
