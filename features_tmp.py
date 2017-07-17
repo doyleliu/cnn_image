@@ -2,7 +2,6 @@ import numpy as np
 import os
 import h5py
 import argparse
-import csv
 from numpy import linalg as LA
 
 from keras.applications.vgg16 import VGG16
@@ -63,11 +62,9 @@ if __name__ == "__main__":
 
     if(nums == 0):
 	print(feats.shape)
-	out = open("features.csv", "w")
-	writer = csv.writer(out)
-	
+	h5f = h5py.File(output,'a')	
         dataset_1 = h5f.create_dataset('dataset_1', data=feats, maxshape=(None,512),chunks=True)
-        dataset_2 = h5f.create_dataset('dataset_2', data=names, maxshape=(None,512),chunks=True)
+        dataset_2 = h5f.create_dataset('dataset_2', data=names, maxshape=(None,),chunks=True)
         print(dataset_1.shape)
 	print(dataset_1.maxshape)
 	h5f.close()
@@ -75,10 +72,10 @@ if __name__ == "__main__":
         h5f = h5py.File(output, 'a')
 	dataset_1 = h5f['dataset_1']
 	dataset_2 = h5f['dataset_2']
-	print(dataset_1.shape)
-	print(dataset_1.maxshape)
+	print(dataset_2.shape)
+	print(dataset_2.maxshape)
 	dataset_1.resize([nums*50+50,512])
-	dataset_2.resize([nums*50+50,512])
-        dataset_1[nums*50] = feats
-        dataset_2[nums*50] = names
+	dataset_2.resize([nums*50+50])
+        dataset_1[nums*50:nums*50+50] = feats
+        dataset_2[nums*50:nums*50+50] = names
         h5f.close()
