@@ -15,8 +15,8 @@ def workprocess(i,queue):
     if not os.path.exists(INTERPRETER): 
       log.error("Cannot find INTERPRETER at path \"%s\"." % INTERPRETER) 
     processor = "features_tmp.py"
-	  pargs = [INTERPRETER, processor,"-database","thumbnails","-index", "features_final.h5","-number",str(nums)] 
-	  subprocess.Popen(pargs)
+    pargs = [INTERPRETER, processor,"-database","thumbnails","-index", "features_final.h5","-number",str(nums)] 
+    subprocess.Popen(pargs)
     queue.task_done()
 
 
@@ -24,7 +24,7 @@ for i in range(num_threads):
   t=Thread(target=workprocess, args=(i,q)) 
   t.setDaemon(True) 
   t.start() 
-for i in range(0,199):
+for i in range(0,2):
   q.put(i)
 
 q.join();print 'Done'
