@@ -4,7 +4,6 @@ from gain_features import extract_feat
 
 import numpy as np
 import h5py
-
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import argparse
