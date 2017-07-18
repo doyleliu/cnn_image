@@ -13,10 +13,12 @@ def workprocess(nums):
     log.error("Cannot find INTERPRETER at path \"%s\"." % INTERPRETER) 
   processor = "features_tmp.py"
   pargs = [INTERPRETER, processor,"-database","thumbnails","-index", "features_final.h5","-number",str(nums)] 
-  subprocess.Popen(pargs)
+  p = subprocess.Popen(pargs)
+  p.wait()
+  return
   
-for i in range(0,1)
+for i in range(199,596):
   workprocess(i)
-  print "The %d process"(i)
+  print "The %d process"%(i)
 
 print "Done!"
